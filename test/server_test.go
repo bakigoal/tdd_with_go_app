@@ -31,6 +31,7 @@ func TestGETPlayers(t *testing.T) {
 
 		server.ServeHTTP(res, req)
 
+		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, "20", res.Body.String())
 	})
 	t.Run("returns Floyd's score", func(t *testing.T) {
@@ -39,6 +40,15 @@ func TestGETPlayers(t *testing.T) {
 
 		server.ServeHTTP(res, req)
 
+		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, "10", res.Body.String())
+	})
+	t.Run("returns 404 on missing players", func(t *testing.T) {
+		req, _ := http.NewRequest(http.MethodGet, "/players/Apollo", nil)
+		res := httptest.NewRecorder()
+
+		server.ServeHTTP(res, req)
+
+		assert.Equal(t, http.StatusNotFound, res.Code)
 	})
 }
