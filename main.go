@@ -5,9 +5,12 @@ import (
 	"net/http"
 
 	"github.com/bakigoal/tdd_with_go_app/server"
+	"github.com/bakigoal/tdd_with_go_app/service"
 )
 
 func main() {
-	handler := http.HandlerFunc(server.PlayerServer)
-	log.Fatal(http.ListenAndServe(":8888", handler))
+	server := &server.PlayerServer{
+		Store: &service.PlayerService{},
+	}
+	log.Fatal(http.ListenAndServe(":8888", server))
 }
