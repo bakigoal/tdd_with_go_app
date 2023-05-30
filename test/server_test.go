@@ -18,4 +18,12 @@ func TestGETPlayers(t *testing.T) {
 
 		assert.Equal(t, "20", res.Body.String())
 	})
+	t.Run("returns Floyd's score", func(t *testing.T) {
+		req, _ := http.NewRequest(http.MethodGet, "/players/Floyd", nil)
+		res := httptest.NewRecorder()
+
+		server.PlayerServer(res, req)
+
+		assert.Equal(t, "10", res.Body.String())
+	})
 }
