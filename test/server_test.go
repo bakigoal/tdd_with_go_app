@@ -52,3 +52,19 @@ func TestGETPlayers(t *testing.T) {
 		assert.Equal(t, http.StatusNotFound, res.Code)
 	})
 }
+
+func TestStoreWins(t *testing.T) {
+	store := StubPlayerStore{
+		map[string]int{},
+	}
+	server := &server.PlayerServer{Store: &store}
+	t.Run("returns Accepted on POST", func(t *testing.T) {
+		req, _ := http.NewRequest(http.MethodPost, "/players/Pepper", nil)
+		res := httptest.NewRecorder()
+
+		server.ServeHTTP(res, req)
+
+		assert.Equal(t, http.StatusAccepted, res.Code)
+	})
+
+}
