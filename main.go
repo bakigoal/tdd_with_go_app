@@ -9,8 +9,6 @@ import (
 )
 
 func main() {
-	server := &server.PlayerServer{
-		Store: store.NewInMemoryPlayerStore(),
-	}
+	server := server.NewPlayerServer(store.NewInMemoryPlayerStore())
 	log.Fatal(http.ListenAndServe(":8888", server))
 }
