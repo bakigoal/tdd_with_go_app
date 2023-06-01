@@ -3,12 +3,22 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/bakigoal/tdd_with_go_app/server"
 	"github.com/bakigoal/tdd_with_go_app/store"
 )
 
+const dbFileName = "game.db.json"
+
 func main() {
-	server := server.NewPlayerServer(store.NewInMemoryPlayerStore())
+	db, err := os.OpenFile(dbFileName, os.O_RDWR|os.O_CREATE, 0666)
+	if err != nil {
+		log.Fatalf("problem opening %s %v", dbFileName, err)
+	}
+
+	playerStore := &store.FileSystemPlayerStore{Database: db}
+	server := server.NewPlayerServer(playerStore)
+
 	log.Fatal(http.ListenAndServe(":8888", server))
 }
