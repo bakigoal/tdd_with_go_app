@@ -103,7 +103,7 @@ func TestLeague(t *testing.T) {
 		got := getLeagueResponse(t, res)
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, wantedLeague, got)
-		assertHeader(t, res, "content-type", "application/json")
+		assertHeader(t, res, "content-type", server.JsonContentType)
 	})
 
 }
