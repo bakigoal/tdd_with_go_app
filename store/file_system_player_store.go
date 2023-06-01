@@ -10,6 +10,11 @@ type FileSystemPlayerStore struct {
 }
 
 func (s *FileSystemPlayerStore) GetPlayerScore(player string) int {
+	for _, p := range s.GetLeague() {
+		if p.Name == player {
+			return p.Wins
+		}
+	}
 	return 0
 }
 
