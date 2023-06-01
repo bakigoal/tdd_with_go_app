@@ -1,6 +1,7 @@
 package test
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -80,13 +81,17 @@ func TestStoreWins(t *testing.T) {
 
 func TestLeague(t *testing.T) {
 	store := StubPlayerStore{}
-	server := server.NewPlayerServer(&store)
+	playerServer := server.NewPlayerServer(&store)
 	t.Run("returns 200 on /league", func(t *testing.T) {
 		req, _ := http.NewRequest(http.MethodGet, "/league", nil)
 		res := httptest.NewRecorder()
 
-		server.ServeHTTP(res, req)
+		playerServer.ServeHTTP(res, req)
 
+		var got []server.Player
+		err := json.NewDecoder(res.Body).Decode(&got)
+
+		assert.NoError(t, err)
 		assert.Equal(t, http.StatusOK, res.Code)
 	})
 
