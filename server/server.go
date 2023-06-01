@@ -3,6 +3,7 @@ package server
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/bakigoal/tdd_with_go_app/model"
 	"net/http"
 	"strings"
 )
@@ -12,17 +13,12 @@ const JsonContentType = "application/json"
 type PlayerStore interface {
 	GetPlayerScore(name string) int
 	RecordWin(player string)
-	GetLeague() []Player
+	GetLeague() model.League
 }
 
 type PlayerServer struct {
 	Store PlayerStore
 	http.Handler
-}
-
-type Player struct {
-	Name string
-	Wins int
 }
 
 func NewPlayerServer(store PlayerStore) *PlayerServer {

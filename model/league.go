@@ -1,12 +1,11 @@
-package store
+package model
 
 import (
 	"encoding/json"
-	"github.com/bakigoal/tdd_with_go_app/server"
 	"io"
 )
 
-type League []server.Player
+type League []Player
 
 func NewLeague(rdb io.Reader) (League, error) {
 	var league League
@@ -17,7 +16,7 @@ func NewLeague(rdb io.Reader) (League, error) {
 	return league, nil
 }
 
-func (l League) Find(name string) *server.Player {
+func (l League) Find(name string) *Player {
 	for i, p := range l {
 		if p.Name == name {
 			return &l[i]

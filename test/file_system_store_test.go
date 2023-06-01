@@ -1,6 +1,7 @@
 package test
 
 import (
+	"github.com/bakigoal/tdd_with_go_app/model"
 	"github.com/bakigoal/tdd_with_go_app/store"
 	"github.com/stretchr/testify/assert"
 	"io"
@@ -17,7 +18,7 @@ func TestFileSystemStore(t *testing.T) {
 		playerStore := store.FileSystemPlayerStore{Database: db}
 
 		got := playerStore.GetLeague()
-		want := store.League{
+		want := model.League{
 			{Name: "Cleo", Wins: 10},
 			{Name: "Chris", Wins: 33},
 		}

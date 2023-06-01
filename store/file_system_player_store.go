@@ -2,7 +2,7 @@ package store
 
 import (
 	"encoding/json"
-	"github.com/bakigoal/tdd_with_go_app/server"
+	"github.com/bakigoal/tdd_with_go_app/model"
 	"io"
 )
 
@@ -24,15 +24,15 @@ func (s *FileSystemPlayerStore) RecordWin(player string) {
 	if found != nil {
 		found.Wins++
 	} else {
-		league = append(league, server.Player{Name: player, Wins: 1})
+		league = append(league, model.Player{Name: player, Wins: 1})
 	}
 
 	s.Database.Seek(0, 0)
 	json.NewEncoder(s.Database).Encode(league)
 }
 
-func (s *FileSystemPlayerStore) GetLeague() League {
+func (s *FileSystemPlayerStore) GetLeague() model.League {
 	s.Database.Seek(0, 0)
-	league, _ := NewLeague(s.Database)
+	league, _ := model.NewLeague(s.Database)
 	return league
 }

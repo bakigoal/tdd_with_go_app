@@ -1,7 +1,7 @@
 package test
 
 import (
-	"github.com/bakigoal/tdd_with_go_app/store"
+	"github.com/bakigoal/tdd_with_go_app/model"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -13,7 +13,7 @@ import (
 type StubPlayerStore struct {
 	scores   map[string]int
 	winCalls []string
-	league   []server.Player
+	league   model.League
 }
 
 func (ps *StubPlayerStore) GetPlayerScore(player string) int {
@@ -24,7 +24,7 @@ func (ps *StubPlayerStore) RecordWin(player string) {
 	ps.winCalls = append(ps.winCalls, player)
 }
 
-func (ps *StubPlayerStore) GetLeague() []server.Player {
+func (ps *StubPlayerStore) GetLeague() model.League {
 	return ps.league
 }
 
@@ -85,7 +85,7 @@ func TestStoreWins(t *testing.T) {
 }
 
 func TestLeague(t *testing.T) {
-	wantedLeague := []server.Player{
+	wantedLeague := model.League{
 		{"Johny", 22},
 		{"Brad", 32},
 		{"Baki", 42},
@@ -113,9 +113,9 @@ func assertHeader(t *testing.T, res *httptest.ResponseRecorder, header string, e
 	assert.Equal(t, expectedValue, res.Result().Header.Get(header))
 }
 
-func getLeagueResponse(t *testing.T, res *httptest.ResponseRecorder) []server.Player {
+func getLeagueResponse(t *testing.T, res *httptest.ResponseRecorder) model.League {
 	t.Helper()
-	league, err := store.NewLeague(res.Body)
+	league, err := model.NewLeague(res.Body)
 	assert.NoError(t, err)
 	return league
 }

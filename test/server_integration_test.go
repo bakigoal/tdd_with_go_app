@@ -1,6 +1,7 @@
 package test
 
 import (
+	"github.com/bakigoal/tdd_with_go_app/model"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
@@ -11,8 +12,10 @@ import (
 )
 
 func TestRecordingWinsAndGettingThem(t *testing.T) {
-	store := store.NewInMemoryPlayerStore()
-	playerServer := server.NewPlayerServer(store)
+	db, cleanDb := createTempFile(t, "")
+	defer cleanDb()
+	playerStore := &store.FileSystemPlayerStore{Database: db}
+	playerServer := server.NewPlayerServer(playerStore)
 	player := "Bobby"
 
 	playerServer.ServeHTTP(httptest.NewRecorder(), newPostWinRequest(player))
@@ -31,7 +34,7 @@ func TestRecordingWinsAndGettingThem(t *testing.T) {
 		playerServer.ServeHTTP(response, newLeagueRequest())
 		assert.Equal(t, http.StatusOK, response.Code)
 		got := getLeagueResponse(t, response)
-		want := []server.Player{
+		want := model.League{
 			{"Bobby", 3},
 		}
 		assert.Equal(t, want, got)
