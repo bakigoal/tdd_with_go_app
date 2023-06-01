@@ -100,12 +100,17 @@ func TestLeague(t *testing.T) {
 
 		playerServer.ServeHTTP(res, req)
 
-		var got []server.Player
-		err := json.NewDecoder(res.Body).Decode(&got)
-
-		assert.NoError(t, err)
+		got := getLeagueResponse(t, res)
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, wantedLeague, got)
 	})
 
+}
+
+func getLeagueResponse(t *testing.T, res *httptest.ResponseRecorder) []server.Player {
+	t.Helper()
+	var got []server.Player
+	err := json.NewDecoder(res.Body).Decode(&got)
+	assert.NoError(t, err)
+	return got
 }
