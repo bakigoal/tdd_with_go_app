@@ -19,5 +19,9 @@ func (ps *InMemoryPlayerStore) RecordWin(player string) {
 }
 
 func (ps InMemoryPlayerStore) GetLeague() []server.Player {
-	return []server.Player{}
+	var league []server.Player
+	for name, wins := range ps.store {
+		league = append(league, server.Player{Name: name, Wins: wins})
+	}
+	return league
 }
