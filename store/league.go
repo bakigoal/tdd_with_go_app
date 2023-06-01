@@ -6,11 +6,22 @@ import (
 	"io"
 )
 
-func NewLeague(rdb io.Reader) ([]server.Player, error) {
-	var league []server.Player
+type League []server.Player
+
+func NewLeague(rdb io.Reader) (League, error) {
+	var league League
 	err := json.NewDecoder(rdb).Decode(&league)
 	if err != nil {
 		return nil, err
 	}
 	return league, nil
+}
+
+func (l League) Find(name string) *server.Player {
+	for i, p := range l {
+		if p.Name == name {
+			return &l[i]
+		}
+	}
+	return nil
 }

@@ -1,7 +1,6 @@
 package test
 
 import (
-	"github.com/bakigoal/tdd_with_go_app/server"
 	"github.com/bakigoal/tdd_with_go_app/store"
 	"github.com/stretchr/testify/assert"
 	"io"
@@ -15,16 +14,16 @@ func TestFileSystemStore(t *testing.T) {
 {"Name": "Cleo", "Wins": 10},
 {"Name": "Chris", "Wins": 33}]`)
 		defer cleanDb()
-		store := store.FileSystemPlayerStore{Database: db}
+		playerStore := store.FileSystemPlayerStore{Database: db}
 
-		got := store.GetLeague()
-		want := []server.Player{
+		got := playerStore.GetLeague()
+		want := store.League{
 			{Name: "Cleo", Wins: 10},
 			{Name: "Chris", Wins: 33},
 		}
 		assert.Equal(t, want, got)
 
-		got = store.GetLeague()
+		got = playerStore.GetLeague()
 		assert.Equal(t, got, want)
 	})
 	t.Run("get player score", func(t *testing.T) {
@@ -32,10 +31,10 @@ func TestFileSystemStore(t *testing.T) {
 {"Name": "Cleo", "Wins": 10},
 {"Name": "Chris", "Wins": 33}]`)
 		defer cleanDb()
-		store := store.FileSystemPlayerStore{Database: db}
+		playerStore := store.FileSystemPlayerStore{Database: db}
 
-		assert.Equal(t, 33, store.GetPlayerScore("Chris"))
-		assert.Equal(t, 10, store.GetPlayerScore("Cleo"))
+		assert.Equal(t, 33, playerStore.GetPlayerScore("Chris"))
+		assert.Equal(t, 10, playerStore.GetPlayerScore("Cleo"))
 	})
 
 	t.Run("store wins for existing players", func(t *testing.T) {
@@ -43,11 +42,11 @@ func TestFileSystemStore(t *testing.T) {
 {"Name": "Cleo", "Wins": 10},
 {"Name": "Chris", "Wins": 33}]`)
 		defer cleanDb()
-		store := store.FileSystemPlayerStore{Database: db}
+		playerStore := store.FileSystemPlayerStore{Database: db}
 
-		store.RecordWin("Chris")
+		playerStore.RecordWin("Chris")
 
-		assert.Equal(t, 34, store.GetPlayerScore("Chris"))
+		assert.Equal(t, 34, playerStore.GetPlayerScore("Chris"))
 	})
 }
 
