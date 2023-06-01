@@ -103,9 +103,14 @@ func TestLeague(t *testing.T) {
 		got := getLeagueResponse(t, res)
 		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, wantedLeague, got)
-		assert.Equal(t, "application/json", res.Result().Header.Get("content-type"))
+		assertHeader(t, res, "content-type", "application/json")
 	})
 
+}
+
+func assertHeader(t *testing.T, res *httptest.ResponseRecorder, header string, expectedValue string) {
+	t.Helper()
+	assert.Equal(t, expectedValue, res.Result().Header.Get(header))
 }
 
 func getLeagueResponse(t *testing.T, res *httptest.ResponseRecorder) []server.Player {

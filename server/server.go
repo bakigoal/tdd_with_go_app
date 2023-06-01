@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+const jsonContentType = "application/json"
+
 type PlayerStore interface {
 	GetPlayerScore(name string) int
 	RecordWin(player string)
@@ -34,7 +36,7 @@ func NewPlayerServer(store PlayerStore) *PlayerServer {
 }
 
 func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("content-type", "application/json")
+	w.Header().Set("content-type", jsonContentType)
 	json.NewEncoder(w).Encode(p.Store.GetLeague())
 	w.WriteHeader(http.StatusOK)
 }
