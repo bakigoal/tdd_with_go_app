@@ -2,11 +2,11 @@ package store
 
 import (
 	"github.com/bakigoal/tdd_with_go_app/server"
-	"strings"
+	"io"
 )
 
 type FileSystemPlayerStore struct {
-	Database *strings.Reader
+	Database io.ReadSeeker
 }
 
 func (s *FileSystemPlayerStore) GetPlayerScore(player string) int {
@@ -17,9 +17,7 @@ func (s *FileSystemPlayerStore) RecordWin(player string) {
 }
 
 func (s *FileSystemPlayerStore) GetLeague() []server.Player {
-	league, err := NewLeague(s.Database)
-	if err != nil {
-		return nil
-	}
+	s.Database.Seek(0, 0)
+	league, _ := NewLeague(s.Database)
 	return league
 }

@@ -21,5 +21,8 @@ func TestFileSystemStore(t *testing.T) {
 			{Name: "Chris", Wins: 33},
 		}
 		assert.Equal(t, want, got)
+
+		got = store.GetLeague()
+		assert.Equal(t, got, want)
 	})
 }
