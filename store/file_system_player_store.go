@@ -2,6 +2,7 @@ package store
 
 import (
 	"encoding/json"
+	"github.com/bakigoal/tdd_with_go_app/server"
 	"io"
 )
 
@@ -23,7 +24,7 @@ func (s *FileSystemPlayerStore) RecordWin(player string) {
 	if found != nil {
 		found.Wins++
 	} else {
-
+		league = append(league, server.Player{Name: player, Wins: 1})
 	}
 
 	s.Database.Seek(0, 0)
