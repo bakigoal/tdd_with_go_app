@@ -1,7 +1,7 @@
 package test
 
 import (
-	"encoding/json"
+	"github.com/bakigoal/tdd_with_go_app/store"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -115,8 +115,7 @@ func assertHeader(t *testing.T, res *httptest.ResponseRecorder, header string, e
 
 func getLeagueResponse(t *testing.T, res *httptest.ResponseRecorder) []server.Player {
 	t.Helper()
-	var got []server.Player
-	err := json.NewDecoder(res.Body).Decode(&got)
+	league, err := store.NewLeague(res.Body)
 	assert.NoError(t, err)
-	return got
+	return league
 }
