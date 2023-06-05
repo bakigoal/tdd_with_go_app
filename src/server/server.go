@@ -3,7 +3,7 @@ package server
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/bakigoal/tdd_with_go_app/model"
+	"github.com/bakigoal/tdd_with_go_app/src/model"
 	"net/http"
 	"strings"
 )

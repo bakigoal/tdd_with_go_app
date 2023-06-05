@@ -1,10 +1,9 @@
 package test
 
 import (
-	"github.com/bakigoal/tdd_with_go_app/model"
-	"github.com/bakigoal/tdd_with_go_app/store"
+	"github.com/bakigoal/tdd_with_go_app/src/model"
+	"github.com/bakigoal/tdd_with_go_app/src/store"
 	"github.com/stretchr/testify/assert"
-	"io"
 	"os"
 	"testing"
 )
@@ -63,7 +62,7 @@ func TestFileSystemStore(t *testing.T) {
 	})
 }
 
-func createTempFile(t testing.TB, initialData string) (io.ReadWriteSeeker, func()) {
+func createTempFile(t testing.TB, initialData string) (*os.File, func()) {
 	t.Helper()
 	tmpfile, err := os.CreateTemp("", "db")
 

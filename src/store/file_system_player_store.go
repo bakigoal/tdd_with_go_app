@@ -2,20 +2,21 @@ package store
 
 import (
 	"encoding/json"
-	"github.com/bakigoal/tdd_with_go_app/model"
-	"io"
+	"github.com/bakigoal/tdd_with_go_app/src/model"
+	"github.com/bakigoal/tdd_with_go_app/src/utils"
+	"os"
 )
 
 type FileSystemPlayerStore struct {
-	Database io.ReadWriteSeeker
+	Database *json.Encoder
 	league   model.League
 }
 
-func NewFileSystemPlayerStore(database io.ReadWriteSeeker) *FileSystemPlayerStore {
+func NewFileSystemPlayerStore(database *os.File) *FileSystemPlayerStore {
 	database.Seek(0, 0)
 	league, _ := model.NewLeague(database)
 	return &FileSystemPlayerStore{
-		Database: database,
+		Database: json.NewEncoder(&utils.Tape{File: database}),
 		league:   league,
 	}
 }
@@ -36,8 +37,7 @@ func (s *FileSystemPlayerStore) RecordWin(player string) {
 		s.league = append(s.league, model.Player{Name: player, Wins: 1})
 	}
 
-	s.Database.Seek(0, 0)
-	json.NewEncoder(s.Database).Encode(s.league)
+	s.Database.Encode(s.league)
 }
 
 func (s *FileSystemPlayerStore) GetLeague() model.League {

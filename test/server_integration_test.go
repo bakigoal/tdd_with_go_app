@@ -1,20 +1,22 @@
 package test
 
 import (
-	"github.com/bakigoal/tdd_with_go_app/model"
+	"encoding/json"
+	"github.com/bakigoal/tdd_with_go_app/src/model"
+	"github.com/bakigoal/tdd_with_go_app/src/utils"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
-	"github.com/bakigoal/tdd_with_go_app/server"
-	"github.com/bakigoal/tdd_with_go_app/store"
+	"github.com/bakigoal/tdd_with_go_app/src/server"
+	"github.com/bakigoal/tdd_with_go_app/src/store"
 )
 
 func TestRecordingWinsAndGettingThem(t *testing.T) {
 	db, cleanDb := createTempFile(t, "")
 	defer cleanDb()
-	playerStore := &store.FileSystemPlayerStore{Database: db}
+	playerStore := &store.FileSystemPlayerStore{Database: json.NewEncoder(&utils.Tape{File: db})}
 	playerServer := server.NewPlayerServer(playerStore)
 	player := "Bobby"
 

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/bakigoal/tdd_with_go_app/server"
-	"github.com/bakigoal/tdd_with_go_app/store"
+	"github.com/bakigoal/tdd_with_go_app/src/server"
+	"github.com/bakigoal/tdd_with_go_app/src/store"
 )
 
 const dbFileName = "game.db.json"

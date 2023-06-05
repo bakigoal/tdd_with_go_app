@@ -1,12 +1,12 @@
 package test
 
 import (
-	"github.com/bakigoal/tdd_with_go_app/model"
+	"github.com/bakigoal/tdd_with_go_app/src/model"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
-	"github.com/bakigoal/tdd_with_go_app/server"
+	"github.com/bakigoal/tdd_with_go_app/src/server"
 	"github.com/stretchr/testify/assert"
 )
 
